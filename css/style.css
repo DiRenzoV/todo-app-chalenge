@@ -28,7 +28,7 @@ html {
 body {
   font-family: 'Josefin Sans', sans-serif;
   font-size: 1.8rem;
-  padding: 3rem;
+  padding: 1rem 2rem;
   background-image: url(/images/bg-mobile-light.jpg);
   background-repeat: no-repeat;
   background-size: 100%;
@@ -46,6 +46,10 @@ body {
   position: relative;
 }
 
+.todo-container {
+  box-shadow: 0 5px 30px lightgray;
+}
+
 .theme-switch {
   --size: 3rem;
 
@@ -59,9 +63,15 @@ body {
   cursor: pointer;
 }
 
-
+.container,
+.todo-container,
+.buttons-container {
+  max-width: 600px;
+  margin: 0 auto;
+  } 
 
 /* -- Tasks -- */
+
 .task, .new-task {
   padding: 1.5rem;
 }
@@ -107,6 +117,7 @@ body {
 }
 
 .task {
+  font-size: 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -139,10 +150,10 @@ body {
 label::after {
   content: '';
   position: absolute;
-  top: 50%;
-  left: 3.5rem;
+  top: 45%;
+  left: 3rem;
   right: -3px;
-  height: 2px;
+  height: 1px;
   background-color: currentColor;
   transform: scaleX(0);
   transform-origin: left;
@@ -164,10 +175,11 @@ label::after {
   height: 2rem;
   background-repeat: no-repeat;
 }
+
 /* -- Custom Checkbox -- */
 
 .custom-checkbox {
-  --spacer: 2rem;
+  --spacer: 1.5rem;
 
   width: var(--spacer);
   height: var(--spacer);
@@ -177,7 +189,127 @@ label::after {
   transition: transform .25s, border-color .25s;
 }
 
+/* -- Buttons -- */
+
+.buttons-container {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  padding: 1.5rem;
+
+}
+
+.filters {
+  position: absolute;
+  top: 5rem;
+  left: 0;
+  right: 0;
+  text-align: center; 
+  padding: 1.5rem;
+  margin-top: 2rem;
+  box-shadow: 0 5px 30px lightgray;
+}
+
+.filters .btn {
+  margin: 0 .2rem;
+  font-weight: 700;
+}
+
+.btn:hover,
+.btn:focus {
+  opacity: 1;
+} 
+
+.btn:focus {
+  outline: 2px solid var(--bright-blue);
+  outline-offset: 5px;
+  border-radius: 5px;
+}
+
+
+.btn {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  color: var(--very-dark-grayish-blue);
+  opacity: .6;
+  transition: .2s;
+}
+
+.btn.active {
+  color: var(--bright-blue);
+  opacity: 1;
+}
+
+.task-count {
+  font-size: 1.3rem;
+  opacity: .6;
+}
 
 /* -- Attribution -- */
-.attribution { font-size: 11px; text-align: center; }
-.attribution a { color: hsl(228, 45%, 44%); }
+
+.attribution {
+  font-size: 11px;
+  text-align: center;
+  margin-top: 10rem;
+}
+
+.attribution a {
+  color: hsl(228, 45%, 44%);
+}
+
+/* -- Media Queries -- */
+@media screen and (min-width: 400px) {
+  body {
+    padding: 2rem;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  body {
+    background-image: url(/images/bg-desktop-light.jpg);
+  }
+
+  .new-task input::placeholder {
+    font-size: 1.5rem;
+  }
+
+  .task {
+    font-size: 2rem;
+  }
+
+  .filters {
+    position: static;
+    text-align: center; 
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+  }
+
+  .btn-delete {
+    order: 2;
+  }
+
+  .custom-checkbox {
+    --spacer: 2.1rem;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  
+  body {
+    padding: 6rem 2rem 0;
+  }
+  
+  .header {
+    font-size: 5rem;
+  }
+
+  .theme-switch {
+    transform: scale(1.2);
+  }
+  
+  .attribution {
+    margin-top: 8rem;
+  }
+}
