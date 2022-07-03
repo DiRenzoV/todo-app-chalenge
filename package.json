@@ -1,0 +1,6 @@
+{
+  "devDependencies": {
+    "cssnano": "^4.1.11",
+    "postcss": "^8.4.14"
+  }
+}

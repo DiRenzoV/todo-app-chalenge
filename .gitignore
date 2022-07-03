@@ -18,3 +18,5 @@ README-template.md
 design/
 style-guide.md
 README.md
+node_modules
+.cache
