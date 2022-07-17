@@ -33,17 +33,21 @@
   <body>
     <div class="container">
       <h1 class="header">TODO</h1>
-      <div class="theme-switch"></div>
+      <div class="theme-switch" data-theme-switch></div>
       <div class="task new-task">
-        <form action="">
+        <form action="" data-new-task-form>
           <div class="custom-checkbox"></div>
-          <input type="text" placeholder="Create New ToDo..." />
+          <input
+            type="text"
+            placeholder="Create New ToDo..."
+            data-new-task-input
+          />
         </form>
       </div>
     </div>
 
     <div class="todo-container">
-      <div class="tasks">
+      <div class="tasks" data-tasks-container>
         <div class="task">
           <input type="checkbox" id="1" />
           <label for="1">
@@ -94,15 +98,20 @@
         </div>
       </div>
       <div class="buttons-container">
-        <p class="task-count">5 tasks ramaining</p>
+        <p class="task-count" data-task-count></p>
         <div class="filters">
-          <button class="btn btn-filter active">All</button>
-          <button class="btn btn-filter">Active</button>
-          <button class="btn btn-filter">Completed</button>
+          <button class="btn btn-filter active" data-filter-all>All</button>
+          <button class="btn btn-filter" data-filter-active>Active</button>
+          <button class="btn btn-filter" data-filter-completed>
+            Completed
+          </button>
         </div>
-        <button class="btn btn-delete">Clear Completed</button>
+        <button class="btn btn-delete" data-delete-completed-button>
+          Clear Completed
+        </button>
       </div>
     </div>
+    <p class="drag-drop">Drag and drop to reorder list</p>
 
     <div class="attribution">
       Challenge by
