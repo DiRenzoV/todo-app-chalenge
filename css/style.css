@@ -40,6 +40,8 @@ body {
   transition: .5s;
 }
 
+/* --- Dark Mode --- */
+
 .dark-mode {
   background-color: var(--very-dark-blue);
   background-image: url(/images/bg-mobile-dark.jpg);
@@ -47,7 +49,10 @@ body {
   --box-shadow: rgba(0, 0, 0, 0.386);
   --very-dark-grayish-blue:  hsl(0, 0%, 98%, .6);
   --light-grayish-blue: hsla(234, 39%, 85%, 0.312);
+}
 
+.dark-mode .filters {
+  box-shadow: none;
 }
 
 /* -- Typography -- */
@@ -98,7 +103,7 @@ body {
 
 /* -- Tasks -- */
 
-.task, .new-task {
+.task {
   padding: 1.5rem;
 }
 
@@ -111,6 +116,9 @@ body {
 
 .new-task {
   margin-bottom: 3rem;
+  padding: 2rem;
+  border-bottom: 1px solid var(--light-grayish-blue);
+
 }
 
 .dark-mode .new-task {
@@ -244,9 +252,7 @@ label::after {
   box-shadow: 0 5px 30px lightgray;
 }
 
-.dark-mode .filters {
-  box-shadow: none;
-}
+
 
 .filters .btn {
   margin: 0 .2rem;
@@ -290,6 +296,14 @@ label::after {
   opacity: .5;
   text-align: center;
 }
+
+/* --- Draggables --- */
+
+.dragging {
+  opacity: .5;
+}
+
+
 
 /* -- Attribution -- */
 
@@ -372,7 +386,7 @@ label::after {
   }
 
   .drag-drop {
-    margin-top: 12rem;
+    margin-top: 4rem;
   }
 
   .filters {
@@ -380,6 +394,6 @@ label::after {
   }
   
   .attribution {
-    margin-top: 8rem;
+    margin-top: 2rem;
   }
 }

@@ -6,12 +6,13 @@ const deleteCompletedButton = document.querySelector('[data-delete-completed-but
 const filters = document.querySelectorAll('.btn-filter')
 const taskCount = document.querySelector('[data-task-count]')
 const themeSwitch = document.querySelector('[data-theme-switch]')
-console.log(themeSwitch)
 
-
+// Define KEYS to Local Storage
 const LOCAL_STORAGE_TASK_KEY = 'todo.tasks'
 const LOCAL_STORAGE_DARK_MODE_KEY = 'todo.darkMode'
 
+
+// Gets data from local storage
 let tasks = JSON.parse(localStorage.getItem(LOCAL_STORAGE_TASK_KEY)) || [] 
 let darkMode = localStorage.getItem(LOCAL_STORAGE_DARK_MODE_KEY)
 
@@ -26,7 +27,6 @@ newTaskForm.addEventListener('submit', e => {
   saveAndRender()
 })
 
-
 taskContainer.addEventListener('click', e => {
   const selectedTask = tasks.find(task => task.id === e.target.id)
   selectedTask.complete = e.target.checked
@@ -40,32 +40,8 @@ deleteCompletedButton.addEventListener('click', e => {
   RenderTaskCount()
 })
 
-filters.forEach(btn => btn.addEventListener('click', () => {
-  document.querySelector('.active').classList.remove('active')
-  btn.classList.add('active')
 
-  if (btn.innerText === 'Completed') {
-    let newTasks = [...tasks]
-   completedTasks = newTasks.filter(task => task.complete)
-   console.log(tasks, completedTasks)
-  }
-
-  if (btn.innerText === 'Active') {
-    const newTasks = [...tasks]
-    activeTasks = newTasks.filter(task => !task.complete)
-    console.log(tasks, activeTasks)
-    clearElement(taskContainer)
-    taskContainer.append(activeTasks)
-  }
-
-  if (btn.innerText === "All") {
-    console.log(tasks)
-    
-  }
-}))
-
-
-
+// --- Dark Mode ---
 const enableDarkMode = () => {
   document.body.classList.add('dark-mode')
   localStorage.setItem(LOCAL_STORAGE_DARK_MODE_KEY, 'enabled')
@@ -92,32 +68,76 @@ themeSwitch.addEventListener('click', () => {
 })
 
 
+// --- Drag and Drop ---
+taskContainer.addEventListener('dragover', e => {
+  e.preventDefault()
+  const afterElement = getDragAfterElement(taskContainer, e.clientY)
+  const draggable = document.querySelector('.dragging')
+  if (afterElement == null) {
+    taskContainer.appendChild(draggable)
+  } else {
+    taskContainer.insertBefore(draggable, afterElement)
+  }
+})
+
+filters.forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelector('.active').classList.remove('active')
+    btn.classList.add('active')
+  })
+})
 
 
+
+function getDragAfterElement(container, y) {
+  const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')]
+
+  return draggableElements.reduce((closest, child) => {
+    const box = child.getBoundingClientRect()
+    const offset = y - box.top - box.height / 2
+    if (offset < 0 && offset > closest.offset) {
+      return { offset: offset, element: child }
+    } else {
+      return closest
+    }
+  }, { offset: Number.NEGATIVE_INFINITY }).element
+}
+
+// Creates task
 function createTask(name) {
   return { id: Date.now().toString(), name: name, complete: false }
 }
-
 
 function clearElement(element) {
   while (element.firstChild) element.removeChild(element.firstChild)
 }
 
-
-
-
 function renderTasks() {
 
   tasks.forEach(task => {
     const taskElement = document.importNode(taskTemplate.content, true)
-    const checkbox = taskElement.querySelector('input')
-    checkbox.id = task.id
-    checkbox.checked = task.complete
+    const draggables = taskElement.querySelectorAll('.task')
+    draggables.forEach(draggable => {
+      draggable.classList.add('draggable')
+      draggable.setAttribute('draggable', 'true')      
 
+      draggable.addEventListener('dragstart', () => {
+        draggable.classList.add('dragging')
+      })
+
+      draggable.addEventListener('dragend', () => {
+        draggable.classList.remove('dragging')
+      })
+
+    })
+    
+    const checkbox = taskElement.querySelector('input')
+    checkbox.checked = task.complete
+    checkbox.id = task.id
+    
     const label = taskElement.querySelector('label')
     label.htmlFor = task.id
     label.append(task.name)
-    
     
     const deleteTaskButton = taskElement.querySelector('.close')
     deleteTaskButton.id = task.id
@@ -136,14 +156,11 @@ function renderTasks() {
 
 
 
-
-
 function RenderTaskCount() {
   let incompleteTasks = tasks.filter(task => !task.complete).length
   let taskString = incompleteTasks === 1 ? 'task' : 'tasks'
   taskCount.innerText = `${incompleteTasks} ${taskString} remaining.`
 }
-
 
 function saveAndRender() {
   save()
@@ -158,6 +175,5 @@ function render() {
   clearElement(taskContainer)
   renderTasks()
 }
-
 
 render()
