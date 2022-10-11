@@ -23,7 +23,7 @@ newTaskForm.addEventListener('submit', e => {
   newTaskInput.value = null
 
   const task = createTask(taskName)
-  tasks.push(task)
+  tasks.unshift(task)
   saveAndRender()
 })
 
@@ -80,10 +80,34 @@ taskContainer.addEventListener('dragover', e => {
   }
 })
 
+
+// --- Filters ---
+
 filters.forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelector('.active').classList.remove('active')
     btn.classList.add('active')
+
+    switch (btn.innerText.toLowerCase()) {
+      case 'all':
+        console.log('all')
+        console.log(tasks)
+
+        break
+
+      case 'active':
+        console.log('active')
+        const activeTasks = tasks.filter(task => !task.complete)
+        console.log(activeTasks)
+        
+        break
+
+      case 'completed':
+        console.log('completed')
+        const completedTasks = tasks.filter(task => task.complete)
+        console.log(completedTasks)
+        break
+    }
   })
 })
 
